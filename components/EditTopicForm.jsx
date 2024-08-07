@@ -3,55 +3,55 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function AddTodoForm() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+export default function EditTopicForm({ id, title, description }) {
+  const [newTitle, setNewTitle] = useState(title);
+  const [newDescription, setNewDescription] = useState(description);
+
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:3000/api/todos", {
-        method: "POST",
+      const res = await fetch(`http://localhost:3000/api/topics/${id}`, {
+        method: "PUT",
         headers: {
-          "Content-Type": "application/json",
+          "Content-type": "application/json",
         },
-        body: JSON.stringify({ title, description }),
+        body: JSON.stringify({ newTitle, newDescription }),
       });
 
-      if (res.ok) {
-        // Refresh the page or redirect to update the list of todos
-        router.refresh(); // or router.push('/todos') if you have a dedicated page
-      } else {
-        console.error("Failed to add todo");
+      if (!res.ok) {
+        throw new Error("Failed to update topic");
       }
+
+      router.refresh();
+      router.push("/");
     } catch (error) {
-      console.error("Error adding todo:", error);
+      console.log(error);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
       <input
-        onChange={(e) => setTitle(e.target.value)}
-        value={title}
-        className="border border-pink-500 px-8 py-2"
-        type="text"
-        placeholder="Topic Title"
-      />
-      <input
-        onChange={(e) => setDescription(e.target.value)}
-        value={description}
+        onChange={(e) => setNewTitle(e.target.value)}
+        value={newTitle}
         className="border border-slate-500 px-8 py-2"
         type="text"
-        placeholder="Topic Description"
+        placeholder=" Title"
       />
-      <button
-        type="submit"
-        className="bg-cyan-600 font-bold text-white py-3 px-6 w-fit rounded-lg"
-      >
-        Add Todo
+
+      <input
+        onChange={(e) => setNewDescription(e.target.value)}
+        value={newDescription}
+        className="border border-slate-500 px-8 py-2"
+        type="text"
+        placeholder=" Description"
+      />
+
+      <button className="bg-green-600 font-bold text-white py-3 px-6 w-fit">
+        Update 
       </button>
     </form>
   );

@@ -15,7 +15,7 @@ export default function Navbar() {
             href="/addTopic" 
             className="relative h-10 max-h-[40px] w-auto select-none rounded-full bg-cyan-500 text-gray-100 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase shadow-md shadow-cyan-500/30 transition-all hover:shadow-lg hover:shadow-cyan-500/50 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
           >
-            Add Todo
+            Add 
           </Link>
         </div>
       </div>
